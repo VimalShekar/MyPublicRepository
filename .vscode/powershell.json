@@ -1,0 +1,150 @@
+{
+	// Place your snippets for powershell here. Each snippet is defined under a snippet name and has a prefix, body and 
+	// description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. Placeholders with the 
+	// same ids are connected.
+	// Example:
+	// "Print to console": {
+	// 	"prefix": "log",
+	// 	"body": [
+	// 		"console.log('$1');",
+	// 		"$2"
+	// 	],
+	// 	"description": "Log output to console"
+	// }
+
+	"Write to LogFile and Screen With ErrorVar" : {
+		"prefix": "WriteLogFile_ev_ps",
+		"body"	:[
+			"Write-LogFileEntry ${1} -Level ${2} -IncludeErrorVariable -ClearErrorAfterLogging -PrintToScreen",
+			"{0}"
+		],
+		"description": "Log output to log file with error variable and print on screen"
+	},
+
+	"Write to LogFile With ErrorVar" : {
+		"prefix": "WriteLogFile_ev",
+		"body"	:[
+			"Write-LogFileEntry ${1} -Level ${2} -IncludeErrorVariable -ClearErrorAfterLogging",
+			"{0}"
+		],
+		"description": "Log output to log file with error variable. Do not print on screen"
+	},
+
+	"Write to LogFile and Screen" : {
+		"prefix": "WriteLogFile_ps",
+		"body"	:[
+			"Write-LogFileEntry ${1} -Level ${2} -PrintToScreen",
+			"{0}"
+		],
+		"description": "Log output to log file and print on screen"
+	},
+
+	"Write to LogFile" : {
+		"prefix": "WriteLogFile",
+		"body"	:[
+			"Write-LogFileEntry ${1} -Level ${2}",
+			"{0}"
+		],
+		"description": "Log output to log file, do not print on screen"
+	},
+
+	"Write to LogFile with BPRule ID" : {
+		"prefix": "WriteLogFile_bpid",
+		"body"	:[
+			"Write-LogFileEntry \"RuleID-$$($$RuleObject.BPRuleID):${1}\" -Level ${2}",
+			"{0}"
+		],
+		"description": "Log output to log file, do not print on screen"
+	},
+
+	"Update Console Clearline" : {
+		"prefix": "UpdateConsole_clr_nl",
+		"body"	:[
+			"Update-ConsoleLine ${1} -ForegroundColor ${2} -ClearLine",
+			"{0}"
+		],
+		"description": "Update Console by clearning the current line. Goes to next line"
+	},
+
+
+	"Update Console Sameline" : {
+		"prefix": "UpdateConsole_clr",
+		"body"	:[
+			"Update-ConsoleLine ${1} -ForegroundColor ${2} -ClearLine -StayOnSameLine",
+			"{0}"
+		],
+		"description": "Update Console by clearning the current line. Stay on the same line"
+	},
+
+	"Update Console At Cursor" : {
+		"prefix": "UpdateConsole_cursor",
+		"body"	:[
+			"Update-ConsoleLine ${1} -ForegroundColor ${2} $BackgroundColor ${3} -Leftpos ${4} -Toppos ${5} -ClearLine -StayOnSameLine {0}"			
+		],
+		"description": "Update Console by clearning the current line, provide cursor positions"
+	},
+
+	"Export Finding" : {
+		"prefix": "ExportFinding",
+		"body"	:[
+			"Export-Finding -Id $$RuleObject.BPRuleID -BestPractice $$RuleObject.BestPracticeTitle -Finding ${1:$BPValue} -FindingDetail ${2:$BPFinding} {0}"
+		],
+		"description": "Export the finding details"
+	},
+	
+	"Summarise Findings" : {
+		"prefix": "SumFinding",
+		"body"	:[
+			"switch ($$BPValue) {",
+				"\"Yes\"   { $$BPFinding = $$RuleObject.YesMessage }",
+				"\"No\"    { $$BPFinding = $$RuleObject.NoMessage }",
+				"\"N/A\"   { $$BPFinding = $$RuleObject.NAMessage }",
+				"Default { $$BPFinding = $$RuleObject.ErrorMessage }",
+			"}",
+			"$$BPFinding = $$BPFinding + \"`n\" + ( $$BPFindingDetail -join \"`n\" )",
+			" ",
+			"$$BPResult = Export-Finding -Id $$RuleObject.BPRuleID -BestPractice $$RuleObject.BestPracticeTitle -Finding $$BPValue -FindingDetail $$BPFinding",
+			"return $$BPResult"
+		],
+		"description": "Summarise the findings and export the finding detail."
+	},
+
+	"Rule Title" : {
+		"prefix": "RuleTitle",
+		"body"	:[
+			"# RuleID: ${1:RuleNumber}",
+			"# Category: ${2} > ${3} ",
+			"# Description: ${3}",
+			"# Documentation: https://tekspace.atlassian.net/wiki/spaces/TR/pages/",
+			"",
+			"$$RuleObject = $$global:g_RuleDictionary[\"${1:RuleNumber}\"]",
+			"$$BPResult = $null",
+			"$$BPValue = \"Yes\"",
+			"$$BPFindingDetail = @()"
+		],
+		"description": "The rule titling format."
+	},
+
+	"Global var" : {
+		"prefix": "gg",
+		"body"	:[
+			"$Global:g_{$1} = ${2}"
+		],
+		"description": "Global variable initialisation."
+	},
+
+	"if previous result" : {
+		"prefix": "if?",
+		"body"	:[
+			"if($$?) {",
+			"${1}",
+			"} else {",
+			"${2}",
+			"}"
+		],
+		"description": "If previous result is true."
+	}
+
+
+}

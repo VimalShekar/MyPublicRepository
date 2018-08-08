@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"path": "E:\\Personal\\MyPublicRepository"
+		}
+	],
+	"settings": {
+		"telemetry.enableCrashReporter": false,
+		"telemetry.enableTelemetry": false,
+		"gitlens.advanced.telemetry.enabled": false
+	}
+}
