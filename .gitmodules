@@ -1,3 +1,10 @@
 [submodule "vimalshekar.ml"]
 	path = vimalshekar.ml
 	url = https://github.com/VimalShekar/vimalshekar.github.io.git
+[submodule "MyGitClones/Cpp"]
+	path = MyGitClones/Cpp
+	url = https://github.com/VimalShekar/Cpp.git
+[submodule "MyGitClones/PowerShell"]
+	path = MyGitClones/PowerShell
+	url = https://github.com/VimalShekar/PowerShell
+
